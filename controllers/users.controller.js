@@ -98,4 +98,22 @@ const loginUser=async(req,res)=>{
 
 }
 
-module.exports={registerUser,loginUser}
+const userDetails=async(req,res)=>{
+    const userId=req.user._id;
+    console.log("user",req.user)
+    console.log("userId",userId)
+    try{
+        const user=await User.findById(userId);
+        console.log("User",user)
+       return res.status(201).json({message:"User data fetched successfully",user})
+
+    }
+    catch(err)
+    {
+        console.log(err)
+        res.status(500).json({success:false,message:"Something went wrong"})
+    }
+
+}
+
+module.exports={registerUser,loginUser,userDetails}
