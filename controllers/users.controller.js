@@ -68,6 +68,7 @@ const loginUser=async(req,res)=>{
     }
     try{
     const foundUser=await User.findOne({email})
+                            .populate({path:"savedVideos",model:"SavedVideo",populate:{path:"videoItems",model:"VideoItem"}});
     console.log("user",foundUser)
     if(!foundUser)
     {
@@ -103,7 +104,8 @@ const userDetails=async(req,res)=>{
     console.log("user",req.user)
     console.log("userId",userId)
     try{
-        const user=await User.findById(userId);
+        const user=await User.findById(userId).select("-__v -password -createdAt")
+                                            .populate({path:"savedVideos",model:"SavedVideo",populate:{path:"videoItems",model:"VideoItem"}});
         console.log("User",user)
        return res.status(201).json({message:"User data fetched successfully",user})
 
