@@ -7,6 +7,7 @@ const cors=require("cors");
 const videos=require("./routes/videos");
 const users=require("./routes/users");
 const savedVideos=require("./routes/savedVideos");
+const likedVideos=require("./routes/likedVideos")
 app.use(cors())
 
 intializeDBConnection() //initializing DB
@@ -14,6 +15,7 @@ app.use(express.json()) //to parse JSON Data
 app.use("/videos",videos)
 app.use("/users",users)
 app.use("/users",savedVideos)
+app.use("/users",likedVideos)
 app.get("/",(req,res)=>{
     res.send("Welcome To Express App")
     console.log("Welcome to express")

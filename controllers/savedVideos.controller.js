@@ -5,7 +5,8 @@ const { User } = require("../models/users.model");
 
 const getSavedVideos=async (req,res)=>{
     const {userId}=req.params;
-    console.log(userId)
+    //console.log(userId)
+    console.log({userId})
     console.log("req params",req.params)
     try{
         const savedVideos=await SavedVideo.findOne({userId}).populate("videoItems")
@@ -47,4 +48,23 @@ const addSavedVideos=async (req,res)=>{
     }
 }
 
-module.exports={addSavedVideos,getSavedVideos}
+const removeSavedVideos=async(req,res)=>{
+    const {userId,videoId}=req.body;
+    const foundUserSavedVideos=await SavedVideo.findOne({userId})
+    try{
+        if(foundUserSavedVideos)
+        {
+            foundUserSavedVideos.videoItems=foundUserSavedVideos.videoItems.filter(video=>String(video)!==String(videoId))
+            const updatedSavedVideos=await (await foundUserSavedVideos.save()).populate("videoItems")
+            res.status(201).json({message:"Video removed successfully",updatedSavedVideos})
+        }
+
+    }
+    catch(err)
+    {
+        console.log(err)
+        res.status(401).json({message:"Video removed unsuccessful",err})
+    }
+}
+
+module.exports={addSavedVideos,getSavedVideos,removeSavedVideos}

@@ -9,6 +9,10 @@ const UserSchema=new Schema({
     {
         type:Schema.Types.ObjectId,
         ref:"SavedVideo"
+    },
+    likedVideos:{
+        type:Schema.Types.ObjectId,
+        ref:"LikedVideo"
     }
 },
 {
