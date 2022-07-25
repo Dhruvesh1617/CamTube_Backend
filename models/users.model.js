@@ -5,15 +5,18 @@ const UserSchema=new Schema({
     username:{type:String,required:true},
     email:{type:String,required:true},
     password:{type:String,required:true},
-    savedVideos:
-    {
+    savedVideos:[{
         type:Schema.Types.ObjectId,
         ref:"SavedVideo"
-    },
-    likedVideos:{
+    }],
+    likedVideos:[{
         type:Schema.Types.ObjectId,
         ref:"LikedVideo"
-    }
+    }],
+    playListVideos:[{
+        type:Schema.Types.ObjectId,
+        ref:"PlayList"
+    }]
 },
 {
     timestamps:{
