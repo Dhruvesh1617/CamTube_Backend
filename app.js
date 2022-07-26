@@ -8,7 +8,9 @@ const videos=require("./routes/videos");
 const users=require("./routes/users");
 const savedVideos=require("./routes/savedVideos");
 const likedVideos=require("./routes/likedVideos")
-const playlist=require("./routes/playList")
+const playlist=require("./routes/playList");
+const history=require("./routes/history")
+
 app.use(cors())
 
 intializeDBConnection() //initializing DB
@@ -18,6 +20,7 @@ app.use("/users",users)
 app.use("/users",savedVideos)
 app.use("/users",likedVideos)
 app.use("/users",playlist)
+app.use("/users",history)
 app.get("/",(req,res)=>{
     res.send("Welcome To Express App")
     console.log("Welcome to express")

@@ -13,6 +13,10 @@ const UserSchema=new Schema({
         type:Schema.Types.ObjectId,
         ref:"LikedVideo"
     }],
+    historyVideos:[{
+        type:Schema.Types.ObjectId,
+        ref:"History"
+    }],
     playListVideos:[{
         type:Schema.Types.ObjectId,
         ref:"PlayList"
