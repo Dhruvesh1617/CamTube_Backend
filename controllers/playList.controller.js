@@ -60,6 +60,25 @@ const addPlayList=async(req,res)=>{
 
 }
 
+const removePlayList=async (req,res)=>{
+    const {userId}=req.params;
+    const {playlistId}=req.body;
+    const foundPlaylist=await PlayList.findOne({userId})
+    console.log("playlist of specific user",foundPlaylist)
+    try{
+       foundPlaylist.playLists=foundPlaylist.playLists.filter((item)=>String(item._id)!==String(playlistId))
+       console.log("playlist after filter",foundPlaylist)
+        const updatedPlaylist=await (await foundPlaylist.save()).populate("playLists.videos")
+        res.status(201).json({message:"Playlist removed successfully",playlist:updatedPlaylist})
+     }
+
+    catch(err)
+    {
+        console.log(err)
+        res.status(404).json({message:"playlist not removed something went wrong",err})
+    }
+}
+
 
 const addVideoToPlayList=async(req,res)=>{
     const {userId,playListId}=req.params;
@@ -88,5 +107,27 @@ const addVideoToPlayList=async(req,res)=>{
     }
 }
 
+const removeVideoFromPlayList=async (req,res)=>{
+    const {userId}=req.params;
+    const {playListId,videoId}=req.body;
+    
+    const foundPlaylist=await PlayList.findOne({userId})
+    try{
+    foundPlaylist.playLists.map((playlist)=>{
+        if(String(playlist._id)===playListId)
+        {
+            return (playlist.videos=playlist.videos.filter(video=>String(video)!==videoId))
+        }
+    })
+    const updatedPlaylist=await (await foundPlaylist.save()).populate("playLists.videos")
+    res.status(201).json({message:"video from playlist removed successfully",playlist:updatedPlaylist})
 
-module.exports={addPlayList,addVideoToPlayList,getAllPlayList}
+    }
+    catch(err)
+    {
+
+        res.status(500).json({message:"Not able to remove playlist  videos",err})
+    }
+}
+
+module.exports={addPlayList,addVideoToPlayList,getAllPlayList,removePlayList,removeVideoFromPlayList}

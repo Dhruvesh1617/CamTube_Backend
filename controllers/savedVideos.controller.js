@@ -20,8 +20,9 @@ const getSavedVideos=async (req,res)=>{
     }
 }
 const addSavedVideos=async (req,res)=>{
-    const {userId,videoItem}=req.body;
-    console.log("request body",{userId,videoItem})
+    const {userId}=req.params;
+    const {videoItem}=req.body;
+    console.log("request body/req params",{userId,videoItem})
     const foundSavedUser=await SavedVideo.findOne({userId}) //findingOut if userid is present savedVideo Model
     const foundUser=await User.findById(userId) //findingOut if given UserId present in User model or not
     try{
@@ -49,7 +50,8 @@ const addSavedVideos=async (req,res)=>{
 }
 
 const removeSavedVideos=async(req,res)=>{
-    const {userId,videoId}=req.body;
+    const {userId}=req.params;
+    const {videoId}=req.body;
     const foundUserSavedVideos=await SavedVideo.findOne({userId})
     try{
         if(foundUserSavedVideos)

@@ -19,7 +19,8 @@ const getLikedVideos=async(req,res)=>{
 
 
 const addLikedVideos=async (req,res)=>{
-    const {userId,videoItem}=req.body;
+    const {userId}=req.params;
+    const {videoItem}=req.body;
     const foundUserLikedVideos=await LikedVideo.findOne({userId})
     const foundUser=await User.findById(userId)
     try{
@@ -45,7 +46,8 @@ catch(err)
 }
 
 const removeLikedVideos=async(req,res)=>{
-    const{userId,videoId}=req.body;
+    const{userId}=req.params;
+    const {videoId}=req.body;
     console.log("req body data",{userId,videoId})
     const foundUserLikedVideos=await LikedVideo.findOne({userId})
     try{
