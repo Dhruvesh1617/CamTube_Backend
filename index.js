@@ -26,6 +26,6 @@ app.get("/",(req,res)=>{
     console.log("Welcome to express")
 })
 
-app.listen(process.env.port,()=>{
+app.listen(process.env.PORT,()=>{
     console.log(`Successfully connected to port ${process.env.port}`)
 })
