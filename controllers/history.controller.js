@@ -44,4 +44,51 @@ const addToHistory=async (req,res)=>{
 
 }
 
-module.exports={addToHistory,getHistory}
+const removeHistoryVideo=async(req,res)=>
+{
+    const {userId}=req.params;
+    const {videoId}=req.body;
+    const foundUserHistory=await History.findOne({userId})
+    try
+    {
+        if(foundUserHistory)
+        {
+            foundUserHistory.videoItems=foundUserHistory.videoItems.filter((video)=>String(video)!==String(videoId))
+            const updatedHistory=await (await foundUserHistory.save()).populate("videoItems")
+            res.status(201).json({success:true,message:"history Item removed successfully",history:updatedHistory})
+        }
+    }
+    catch(err)
+    {
+        console.log(err)
+        res.status(404).json({message:"Not able to remove video to History",err})
+
+    }
+
+}
+
+const clearHistory=async (req,res)=>
+{
+    const {userId}=req.params;
+    const foundUserHistory=await History.findOne({userId})
+    try{
+        if(foundUserHistory)
+        {
+            foundUserHistory.videoItems=[];
+            const newHistory=await (await foundUserHistory.save()).populate("videoItems")
+            res.status(201).json({success:true,message:"history Items cleared successfully",history:newHistory})
+
+        }
+        
+    }
+    catch(err)
+    {
+        console.log(err)
+        console.log(err)
+        res.status(404).json({message:"Not able to clear History",err})
+    }
+
+
+}
+
+module.exports={addToHistory,getHistory,removeHistoryVideo,clearHistory}
