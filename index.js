@@ -27,5 +27,5 @@ app.get("/",(req,res)=>{
 })
 
 app.listen(process.env.PORT,()=>{
-    console.log(`Successfully connected to port ${process.env.port}`)
+    console.log(`Successfully connected to port ${process.env.PORT}`)
 })
